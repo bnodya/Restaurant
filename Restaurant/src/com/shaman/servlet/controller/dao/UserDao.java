@@ -13,7 +13,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.shaman.servlet.controller.connection.ConnectionManager;
-import com.shaman.servlet.controller.connection.Request;
+import com.shaman.servlet.controller.connection.Query;
 import com.shaman.servlet.controller.transformer.UserTransformer;
 import com.shaman.servlet.model.User;
 
@@ -38,13 +38,13 @@ public class UserDao {
 		}
 		PreparedStatement prepStmt;
 
-		prepStmt = con.prepareStatement(Request.CHECK_USER);
+		prepStmt = con.prepareStatement(Query.CHECK_USER);
 		prepStmt.setString(1, enteredLogin);
 		rs = prepStmt.executeQuery();
 		rs.next();
 		if (rs.getInt("rowCount") == 0) {
 
-			prepStmt = con.prepareStatement(Request.ADD_USER);
+			prepStmt = con.prepareStatement(Query.ADD_USER);
 
 			prepStmt.setString(1, enteredLogin);
 			prepStmt.setString(2, enteredPassword);
@@ -73,7 +73,7 @@ public class UserDao {
 			String enteredLogin = request.getParameter("enteredLogin");
 			String enteredPassword = request.getParameter("enteredPassword");
 			PreparedStatement stmt = con
-					.prepareStatement(Request.SELECT_USER_BY_NAME_AND_PASSWORD);
+					.prepareStatement(Query.SELECT_USER_BY_NAME_AND_PASSWORD);
 			stmt.setString(1, enteredLogin);
 			stmt.setString(2, enteredPassword);
 
@@ -96,7 +96,7 @@ public class UserDao {
 			Statement stmt = con.createStatement();
 			list = new ArrayList<>();
 
-			rs = stmt.executeQuery(Request.SELECT);
+			rs = stmt.executeQuery(Query.SELECT);
 			list = transformer.resultSetToList(rs);
 
 		} catch (SQLException | IOException | PropertyVetoException e) {
